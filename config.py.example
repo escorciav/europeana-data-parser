@@ -1,0 +1,3 @@
+# Europeana API key
+# https://pro.europeana.eu/pages/get-api
+API_KEY = 'ADD-YOUR-API-KEY-HERE'
