@@ -1,3 +1,14 @@
+"""Search on Europeana database
+
+Unfortunatly, we lost the data clean-up steps yielding the records id in
+`golden-set_1.txt`. It was something along the lines of using
+1. Refined queries, mentioned here:
+https://github.com/escorciav/europeana-data-parser#playground
+
+2. Trivial statistical clean up (string repetition := `.value_counts`)
+
+That reduced the original search from ~22k to ~8k entries.
+"""
 import hashlib
 import json
 import requests
@@ -74,51 +85,52 @@ def get_all(query):
     return responses
 
 
-# responses = get_all_pages(query='art of sculpture')
-# with open('raw_art-of-sculpture.json', 'w') as fid:
-#     json.dump(responses, fid)
+if __name__ == '__main__':
+    # responses = get_all_pages(query='art of sculpture')
+    # with open('raw_art-of-sculpture.json', 'w') as fid:
+    #     json.dump(responses, fid)
 
-with open('raw_search-art-of-sculpture.json', 'r') as fid:
-    responses = json.load(fid)
+    with open('raw_search-art-of-sculpture.json', 'r') as fid:
+        responses = json.load(fid)
 
-items = []
-for response in responses:
-    if response['itemsCount'] <= 0:
-        continue
-
-    for item in response['items']:
-        if item.get('type') != 'IMAGE':
+    items = []
+    for response in responses:
+        if response['itemsCount'] <= 0:
             continue
 
-        # items.append(item)
-        # Consider retaining
-        # id
-        # dcCreator : array String
-        # dcDescription
-        # title
-        # guid
-        # link (relevant, but it exposes API key!)
+        for item in response['items']:
+            if item.get('type') != 'IMAGE':
+                continue
 
-        id2 = md5_hash(item['id'])
-        record_file = Path(f'data/{id2}.json')
-        if record_file.exists():
-            continue
+            # items.append(item)
+            # Consider retaining
+            # id
+            # dcCreator : array String
+            # dcDescription
+            # title
+            # guid
+            # link (relevant, but it exposes API key!)
 
-        record = requests.get(item['link'])
-        if record.status_code == 200:
-            record = record.json()['object']
-            with open(record_file, 'w') as fid:
-                json.dump(record, fid)
-        else:
-            # raise ValueError(f'Error: API request failed, status code {record.status_code}')
-            print(f'API request failed, status code {record.status_code}')
-            import pdb; pdb.set_trace()
+            id2 = md5_hash(item['id'])
+            record_file = Path(f'data/{id2}.json')
+            if record_file.exists():
+                continue
 
-# import pprint
-# item_i = items[-1]
-# import random
-# item_i = random.choice(items)
-# pprint.pprint(item_i)
+            record = requests.get(item['link'])
+            if record.status_code == 200:
+                record = record.json()['object']
+                with open(record_file, 'w') as fid:
+                    json.dump(record, fid)
+            else:
+                # raise ValueError(f'Error: API request failed, status code {record.status_code}')
+                print(f'API request failed, status code {record.status_code}')
+                import pdb; pdb.set_trace()
 
-# print(f'Found {len(items)} items')
-# import pdb; pdb.set_trace()
+    # import pprint
+    # item_i = items[-1]
+    # import random
+    # item_i = random.choice(items)
+    # pprint.pprint(item_i)
+
+    # print(f'Found {len(items)} items')
+    # import pdb; pdb.set_trace()
