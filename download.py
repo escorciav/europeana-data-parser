@@ -14,7 +14,12 @@ SESSION = requests.Session()
 def which_suffix(s: str, image_suffix=['.jpg', '.png', '.jpeg', '.tiff']) -> str:
     "Return the images suffix present in s"
     s = s.lower()
-    return [suffix for suffix in image_suffix if suffix in s][0]
+    suffix = [suffix for suffix in image_suffix if suffix in s]
+    if len(suffix) <= 0:
+        suffix = None
+    else:
+        suffix = suffix[0]
+    return suffix
 
 
 def download_image(url: str, image_path: Path) -> bool:
@@ -30,6 +35,9 @@ def download_image(url: str, image_path: Path) -> bool:
         return status
     except requests.exceptions.SSLError:
         print(f'Error: SSLError. Help/Google is needed {url}')
+        return status
+    except requests.exceptions.MissingSchema:
+        print(f'Error: MissingSchema. Help/Google is needed {url}')
         return status
 
     if response.status_code == 200:
@@ -85,7 +93,13 @@ if __name__ == '__main__':
         image_dir_i.mkdir(exist_ok=True)
 
         for url, is_downloaded in item['images'].items():
-            image_path = image_dir_i / f'{md5_hash(url)}{which_suffix(url)}'
+            suffix = which_suffix(url)
+            if suffix:
+                image_path = image_dir_i / f'{md5_hash(url)}{suffix}'
+            else:
+                print(f'Error: GrabbingSuffix: {url}')
+                print(f'Failed on: {record_id}')
+                continue
 
             if check_if_downloaded:
                 is_downloaded = image_path.exists()
