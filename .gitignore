@@ -2,10 +2,11 @@
 config.py
 *.json
 *.zip
-images/
 *.txt
 *.csv
 *.tar
+images/
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
