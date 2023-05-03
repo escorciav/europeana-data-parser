@@ -1,3 +1,4 @@
+import builtins
 import requests
 from pathlib import Path
 from datetime import datetime
@@ -38,6 +39,10 @@ def download_image(url: str, image_path: Path) -> bool:
     return status
 
 
+def print(*args, **kwargs):
+    builtins.print(*args, flush=True, **kwargs)
+
+
 def parse_datetime(iso_string: str) -> datetime:
     return datetime.fromisoformat(iso_string)
 
@@ -64,6 +69,12 @@ if __name__ == '__main__':
     image_dir.mkdir(exist_ok=True, parents=True)
     print(f'{datetime.now().isoformat()} Downloading...')
     for i, item in records_df.iterrows():
+        if i % int(len(records_df) * 0.05) == 0:
+            progress = i * 100 /len(records_df)
+            print(
+                f'{datetime.now().isoformat()} Progress: {progress:.1f}%',
+            )
+
         record_id = item['id']
         image_dir_i = image_dir / f'{md5_hash(record_id)}'
         image_dir_i.mkdir(exist_ok=True)
@@ -101,13 +112,9 @@ if __name__ == '__main__':
         # import pprint; pprint.pprint(item)
         # import pprint; pprint.pprint(item['images'])
         # import pdb; pdb.set_trace()
-
-        if i % int(len(records_df) * 0.05) == 0:
-            print(
-                f'{datetime.now().isoformat()} Progress: '
-                f'{i * 100 /len(records_df):.1f}% done'
-            )
-    print(f'{(records_df["downloaded"] > 0).sum()}/{i + 1} records downloaded')
-    print(f'{records_df["downloaded"].sum()}/{records_df["num_images"].sum()} images downloaded')
+    progress = (records_df["downloaded"] > 0).sum()
+    print(f'{progress}/{i + 1} records downloaded')
+    progress = records_df["downloaded"].sum()
+    print(f'{progress}/{records_df["num_images"].sum()} images downloaded')
     print(f'{datetime.now().isoformat()} Done')
     records_df.to_csv('main_d1.csv', index=False)
