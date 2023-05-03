@@ -28,6 +28,9 @@ def download_image(url: str, image_path: Path) -> bool:
             f'security protocols 🙃 {url}'
         )
         return status
+    except requests.exceptions.SSLError:
+        print(f'Error: SSLError. Help/Google is needed {url}')
+        return status
 
     if response.status_code == 200:
         with open(image_path, 'wb') as f:
@@ -52,6 +55,8 @@ if __name__ == '__main__':
     image_dir = Path('images')
     check_if_downloaded = True
     check_if_corrupted = False
+    download_all_images = True
+    download_all_images = False
 
     records_df['images'] = records_df['images'].apply(eval)
     if isinstance(records_df.loc[0, 'images'], list):
@@ -108,6 +113,9 @@ if __name__ == '__main__':
             else:
                 print(f'Failed on: {record_id}')
 
+            at_least_one = records_df.loc[i, 'downloaded'] > 0
+            if not download_all_images and at_least_one:
+                break
         # item = records_df.loc[i]
         # import pprint; pprint.pprint(item)
         # import pprint; pprint.pprint(item['images'])
