@@ -1,8 +1,8 @@
 # Europeana
 
-## Europeana relevant pointers
+## 1. Europeana relevant pointers
 
-### [Harvesting and Downloads](https://pro.europeana.eu/page/harvesting-and-downloads#downloads)
+### 1.1 [Harvesting and Downloads](https://pro.europeana.eu/page/harvesting-and-downloads#downloads)
 
 Given a "dataset number" name, we can retrieve the metadata, and content:
 
@@ -11,13 +11,19 @@ Given a "dataset number" name, we can retrieve the metadata, and content:
 - `curl -O ftp://download.europeana.eu/dataset/XML/2021672.zip`
 
 
-### [Search](https://pro.europeana.eu/page/search)
+### 1.2 [Search](https://pro.europeana.eu/page/search)
 
 The Search API provides a way to search for metadata records and media on the Europeana repository, for instance give me all results for the word "Vermeer".
 It interacts with Europeana's data in much the same way as the Europeana website does.
 You can search for keywords, and the API will return all records that match that keyword.
 
-#### [pagination](https://pro.europeana.eu/page/search#pagination)
+#### 1.2.1 [Query syntax](https://pro.europeana.eu/page/search#syntax)
+
+Relevant to search for a given artpiece, artist, or combo.
+
+Try out some queries in [this console](https://pro.europeana.eu/page/api-rest-console?function=search&query=%22Mona%20Lisa%22)
+
+#### 1.2.2 [pagination](https://pro.europeana.eu/page/search#pagination)
 
 The Search API offers two ways of paginating through the result set: basic and cursor-based pagination.
 
@@ -25,7 +31,7 @@ The Search API offers two ways of paginating through the result set: basic and c
 
 - Cursor-based pagination allows for a quick iteration over the entire result set, for larger and/or harvesting applications.
 
-### Metadata meaning
+### 1.3 Metadata meaning
 
 Refer to:
 
@@ -43,7 +49,7 @@ Refer to:
     https://api.europeana.eu/record/search.json?wskey=nLbaXYaiH&page=1&qf=collection:art&qf=RIGHTS:*/publicdomain/zero/*&qf=RIGHTS:*/licenses/by-sa/*&qf=RIGHTS:*/publicdomain/mark/*&qf=RIGHTS:*/licenses/by/*&qf=TYPE:"IMAGE"&qf=contentTier:(2 OR 3 OR 4)&query="Art of sculpture"&view=grid&profile=minimal&rows=24&start=1
     ```
 
-## Misc
+## 3. Misc
 
 ```python
 first_request['success'], first_request['totalResults']
