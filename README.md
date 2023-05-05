@@ -1,5 +1,6 @@
 # Europeana
 
+<<<<<<< HEAD
 ## 1. Europeana relevant pointers
 
 ### 1.1 [Harvesting and Downloads](https://pro.europeana.eu/page/harvesting-and-downloads#downloads)
@@ -12,6 +13,11 @@ Given a "dataset number" name, we can retrieve the metadata, and content:
 
 
 ### 1.2 [Search](https://pro.europeana.eu/page/search)
+=======
+- Describe steps in `search.py`
+
+## [Search](https://pro.europeana.eu/page/search)
+>>>>>>> 2b93e26 ([docs] Push relevant link)
 
 The Search API provides a way to search for metadata records and media on the Europeana repository, for instance give me all results for the word "Vermeer".
 It interacts with Europeana's data in much the same way as the Europeana website does.
@@ -88,3 +94,22 @@ print(response.url)
         - Print -> http://data.europeana.eu/concept/2538
 
     - Is part of: "Grafik- und Fotosammlung"
+
+1. Merge catalogs
+
+    - [Indexes 🦜🔗 LangChain](https://python.langchain.com/en/latest/modules/indexes/getting_started.html)
+
+    - [Pandas DataFrame — 🦜🔗 LangChain](https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/dataframe.html)
+    - [Directory Loader — 🦜🔗 ](https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/directory_loader.html)
+    - [MediaWikiDump — 🦜🔗 LangChain](https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/mediawikidump.html)
+    - [Sitemap — 🦜🔗 LangChain](https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/sitemap.html)
+    - [Getting Started — 🦜🔗 LangChain](https://python.langchain.com/en/latest/modules/agents/getting_started.html)
+    - [Wikipedia API — 🦜🔗 LangChain](https://python.langchain.com/en/latest/modules/agents/tools/examples/wikipedia.html)
+    - [SearxNG Search API — 🦜🔗 LangChain](https://python.langchain.com/en/latest/modules/agents/tools/examples/searx_search.html)
+    - [Wikimedia — SearXNG Documentation (2023.5.3+e840c481)](https://docs.searxng.org/src/searx.engines.wikipedia.html#id2)
+    - [Google Engines — SearXNG Documentation](https://docs.searxng.org/src/searx.engines.google.html#module-searx.engines.google_images)
+    - [citiususc/pyplexity: Cleaning tool for web scraped text](https://github.com/citiususc/pyplexity)
+
+1. Visualization tools
+
+    - [Arize-ai/phoenix: ML Observability in a Notebook - Uncover Insights, Surface Problems, Monitor, and Fine Tune your Generative LLM, CV and Tabular Models](https://github.com/Arize-ai/phoenix)
